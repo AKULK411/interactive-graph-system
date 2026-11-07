@@ -1,0 +1,281 @@
+/*
+  MainPage.css — все визуальные стили страницы загрузки.
+  Файл подключается в MainPage.jsx через import "./MainPage.css".
+*/
+
+/* Основные цвета и общие настройки страницы.
+   Поменяйте значения переменных, чтобы обновить акцентные цвета везде. */
+.mainPage {
+  --blue: #145ff5;
+  --orange: #ff7022;
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  color: #18243a;
+  font: 14px / 1.5 "Open Sans", Arial, sans-serif;
+}
+
+/* Предсказуемый расчёт размеров для всех элементов внутри приложения. */
+.mainPage * {
+  box-sizing: border-box;
+}
+
+/* Общая раскладка и горизонтальные отступы для верхней и нижней панелей. */
+.mainHeader,
+.mainFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 7vw, 100px);
+}
+
+/* Header: белая верхняя полоса с логотипом и навигационной цепочкой. */
+.mainHeader {
+  height: 72px;
+  border-bottom: 1px solid #edf0f4;
+  background: #ffffff;
+}
+
+/* Текстовый логотип. Ссылка не имеет подчёркивания. */
+.logo {
+  display: flex;
+  align-items: center;
+  color: #17243a;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  text-decoration: none;
+}
+
+/* Синяя часть названия и маленькая оранжевая точка рядом с логотипом. */
+.logo span {
+  color: var(--blue);
+}
+
+.logo i {
+  width: 7px;
+  height: 7px;
+  margin: 13px 0 0 2px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+
+/* Хлебные крошки справа в header. */
+.breadcrumb {
+  color: #98a1af;
+  font-size: 12px;
+}
+
+.breadcrumb b {
+  padding: 0 9px;
+  color: #c3c8d0;
+}
+
+.breadcrumb strong {
+  color: #27354a;
+  font-weight: 600;
+}
+
+/* Центральная область занимает свободное место и центрирует карточку. */
+.mainContent {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 48px 20px;
+}
+
+/* Карточка загрузки: ограничиваем ширину, добавляем рамку и мягкую тень. */
+.uploadCard {
+  width: min(570px, 100%);
+  padding: 38px;
+  background: #ffffff;
+  border: 1px solid #e8ebf0;
+  border-radius: 20px;
+  box-shadow: 0 14px 50px #20304a12;
+}
+
+/* Небольшая верхняя подпись над заголовком карточки. */
+.eyebrow {
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+/* Заголовок и вводный текст карточки. */
+.uploadCard h1 {
+  margin: 9px 0 5px;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -1.1px;
+}
+
+.intro {
+  margin: 0 0 25px;
+  color: #7c8797;
+  font-size: 13px;
+}
+
+/* Зона загрузки: flex выстраивает значок, текст и кнопку вертикально. */
+.dropzone {
+  position: relative;
+  min-height: 225px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  border: 1px dashed #cbd5e3;
+  border-radius: 16px;
+  background: #f8faff;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.18s;
+}
+
+/* Вид зоны при наведении мышью или во время перетаскивания файла. */
+.dropzone:hover,
+.dropzone.isDragging {
+  border-color: var(--blue);
+  background: #f1f5ff;
+}
+
+/* Состояние после выбора файла. */
+.dropzone.hasFile {
+  border-color: #56b99a;
+  background: #f5fbf8;
+}
+
+/* Прозрачный input занимает всю dropzone — клик в любое место выбирает файл. */
+.dropzone input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Квадратный значок загрузки со стрелкой. */
+.uploadIcon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 13px;
+  border-radius: 14px;
+  background: #eaf0ff;
+  color: var(--blue);
+  font-size: 25px;
+}
+
+/* Имя выбранного файла; длинное имя обрезается многоточием. */
+.dropzone strong {
+  max-width: 100%;
+  overflow: hidden;
+  color: #24334b;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Подпись под основным текстом зоны. */
+.dropHint {
+  margin-top: 4px;
+  color: #929cab;
+  font-size: 12px;
+}
+
+/* Синяя кнопка выбора файла. Она находится внутри label и открывает input. */
+.selectButton {
+  margin-top: 19px;
+  padding: 10px 17px;
+  border-radius: 30px;
+  background: var(--blue);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 5px 13px #145ff52b;
+}
+
+.selectButton b {
+  padding-left: 10px;
+  font-size: 15px;
+}
+
+/* Строка под зоной: подсказка по форматам, размер файла или ошибка. */
+.fileInfo {
+  min-height: 20px;
+  margin-top: 13px;
+  color: #929cab;
+  font-size: 11px;
+  text-align: center;
+}
+
+.fileError {
+  color: #d84d42;
+}
+
+/* Footer: оранжевая нижняя полоса страницы. */
+.mainFooter {
+  min-height: 55px;
+  gap: 12px;
+  border-top: 1px solid var(--orange);
+  background: var(--orange);
+  color: #18243a;
+  font-size: 11px;
+}
+
+/* Группируем индикатор и подпись о локальной обработке. */
+.mainFooter span:last-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Белая точка-индикатор в footer. */
+.mainFooter i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px #ffffff35;
+}
+
+/* Адаптация для узких экранов и телефонов. */
+@media (max-width: 600px) {
+  .mainHeader {
+    height: 62px;
+  }
+
+  /* На телефоне скрываем хлебные крошки, чтобы header не был тесным. */
+  .breadcrumb {
+    display: none;
+  }
+
+  .mainContent {
+    padding: 24px 14px;
+  }
+
+  .uploadCard {
+    padding: 25px 18px;
+  }
+
+  .uploadCard h1 {
+    font-size: 26px;
+  }
+
+  .dropzone {
+    min-height: 205px;
+  }
+
+  /* На маленьком экране элементы footer располагаются друг под другом. */
+  .mainFooter {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px 20px;
+  }
+}
