@@ -1,0 +1,41 @@
+/* Базовый стиль кнопки и её цветовые варианты. */
+.uiButton {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 10px 16px;
+  border: 2px solid #171717;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 150ms ease, filter 150ms ease;
+}
+
+.uiButton:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.uiButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.uiButton--primary {
+  background: #df6b21;
+  color: #171717;
+}
+
+.uiButton--secondary {
+  background: #ffffff;
+  color: #20283a;
+}
+
+.uiButton--ghost {
+  border-color: rgb(255 255 255 / 65%);
+  background: transparent;
+  color: #ffffff;
+}

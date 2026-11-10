@@ -1,0 +1,55 @@
+{
+  "read": "2026-11-06T12:00:10.000000000Z",
+  "preread": "2026-11-06T12:00:09.000000000Z",
+
+  "id": "abc123",
+  "name": "/backend",
+
+  "cpu_stats": {
+    "cpu_usage": {
+      "total_usage": 2500000000,
+      "usage_in_kernelmode": 400000000,
+      "usage_in_usermode": 2100000000
+    },
+
+    "system_cpu_usage": 100000000000,
+    "online_cpus": 4,
+
+    "throttling_data": {
+      "periods": 1000,
+      "throttled_periods": 20,
+      "throttled_time": 50000000
+    }
+
+  },
+
+  "memory_stats": {
+    "usage": 157286400,
+    "max_usage": 209715200,
+    "limit": 536870912,
+    "stats": {
+      "cache": 20971520,
+      "rss": 104857600
+    }
+
+  },
+
+  "networks": {
+    "eth0": {
+      "rx_bytes": 12582912,
+      "rx_packets": 12000,
+      "rx_errors": 0,
+      "rx_dropped": 0,
+
+      "tx_bytes": 4194304,
+      "tx_packets": 8500,
+      "tx_errors": 0,
+      "tx_dropped": 0
+    }
+  },
+
+  "pids_stats": {
+    "current": 12,
+    "limit": 100
+  }
+}

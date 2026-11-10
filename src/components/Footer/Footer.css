@@ -1,0 +1,35 @@
+/* Нейтральный футер уравновешивает яркий оранжевый хедер. */
+.siteFooter {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px clamp(18px, 5vw, 72px);
+  border-top: 1px solid #d4d6da;
+  background: #eeeeef;
+  color: #606875;
+  font-size: 10px;
+}
+
+.footerPrivacy {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.footerPrivacy i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #15966f;
+}
+
+@media (max-width: 560px) {
+  .siteFooter {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+  }
+}

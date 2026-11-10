@@ -1,29 +1,26 @@
-import { useMemo } from "react"
+import { useEffect, useRef } from "react"
 import ForceGraph2D from "react-force-graph-2d"
-import data from '../../data/data.json'
+import {changeColor, configureChargeForce, dataSet, nodelabel} from '../GraphLogic'
 
 export default function Graph2D(){
+    const graphRef = useRef(null);
 
-    const targetCount = useMemo(()=> 
-    data.links.reduce((result, targets)=>{
-    const target = targets.target;
-    result[target]=(result[target] || 0)+1;
-    return result
-    },{}))
-    
-    const sourceCount = useMemo(()=> 
-    data.links.reduce((result, source)=>{
-    const sourses = source.source;
-    result[sourses]=(result[sourses] || 0)+1;
-    return result
-    },{})) 
-
-    const dataSet = useMemo(()=>({
-    nodes:data.nodes.map((node)=>({id:node.id, name:node.name, val:(targetCount[node.id]??0)+(sourceCount[node.id]??0)})),
-    links:data.links.map((link)=>({source:link.source,target:link.target})),
-    }))
+    useEffect(() => {
+        configureChargeForce(graphRef.current);
+    }, []);
 
     return(<>
-    <ForceGraph2D linkDirectionalParticles={2} nodeLabel={(node) => `${node.name}: ${node.val} входящих и исходящих связей`} graphData={dataSet} width={800} height={800}/>
+    <ForceGraph2D
+    ref={graphRef}
+    cooldownTicks={300}
+    backgroundColor="#f1f1f0"
+
+    nodeColor={changeColor}
+    linkDirectionalParticles={0}
+    nodeLabel={nodelabel}
+    graphData={dataSet}
+    width={1112} height={886}
+
+    />
     </>)
 }

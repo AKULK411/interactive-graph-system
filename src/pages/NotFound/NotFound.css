@@ -1,0 +1,49 @@
+/* 404 — компактное пустое состояние с переходом на главную. */
+.notFoundPage {
+  width: min(700px, calc(100% - 32px));
+  min-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.notFoundCode {
+  color: #df6b21;
+  font-size: clamp(76px, 14vw, 140px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.08em;
+}
+
+.notFoundPage h1 {
+  margin: 18px 0 6px;
+  font-size: clamp(24px, 4vw, 36px);
+  letter-spacing: -0.05em;
+}
+
+.notFoundPage p {
+  margin: 0 0 22px;
+  color: #707a88;
+  font-size: 13px;
+}
+
+.notFoundLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 17px;
+  border: 2px solid #171717;
+  background: #df6b21;
+  color: #171717;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.notFoundLink:hover {
+  filter: brightness(1.06);
+}

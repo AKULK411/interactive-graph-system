@@ -1,0 +1,188 @@
+/* Главная — одна рабочая область загрузки, центрированная между header и footer. */
+.homePage {
+  width: 100%;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 38px 18px;
+}
+
+/* Белая карточка импорта — основной и единственный блок этой страницы. */
+.homeCard {
+  width: min(640px, 100%);
+  padding: clamp(22px, 4vw, 38px);
+  border: 2px solid #171717;
+  background: #ffffff;
+  box-shadow: 8px 8px 0 #d2d2d2;
+}
+
+.homeEyebrow {
+  color: #145ff5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.homeCard h1 {
+  margin: 8px 0 5px;
+  color: #20283a;
+  font-size: clamp(25px, 4vw, 34px);
+  line-height: 1.15;
+  letter-spacing: -0.05em;
+}
+
+.homeDescription {
+  margin: 0 0 22px;
+  color: #707a88;
+  font-size: 13px;
+}
+
+/* Зона выбора файла и drag-and-drop. */
+.homeDropzone {
+  position: relative;
+  min-height: 235px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 22px;
+  border: 2px dashed #aebaca;
+  background: #f8faff;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.homeDropzone:hover,
+.homeDropzone.isDragging {
+  border-color: #145ff5;
+  background: #f1f5ff;
+}
+
+.homeDropzone.hasFile {
+  border-color: #15966f;
+  background: #f3fbf7;
+}
+
+.homeFileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.homeUploadIcon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 3px;
+  border: 1px solid #c6d4eb;
+  border-radius: 14px;
+  background: #eaf0ff;
+  color: #145ff5;
+  font-size: 24px;
+}
+
+.homeDropzone strong {
+  max-width: 100%;
+  overflow: hidden;
+  color: #24334b;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.homeDropHint {
+  color: #929cab;
+  font-size: 11px;
+}
+
+/* Подпись выглядит как кнопка, но клики принимает сам input под ней. */
+.homeSelectFile {
+  margin-top: 9px;
+  padding: 10px 17px;
+  background: #145ff5;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  border-color: rgba(255, 255, 255, 0);
+  cursor: pointer;
+}
+
+/* Состояние файла: размер или сообщение об ошибке. */
+.homeFileInfo {
+  min-height: 20px;
+  margin: 10px 0 12px;
+  color: #8791a0;
+  font-size: 11px;
+  text-align: center;
+}
+
+.homeFileInfo.hasError {
+  color: #c83f37;
+}
+
+/* Явное действие после выбора файла; отключено, пока файл не выбран. */
+/* Макет кнопки обработки; это декоративный блок без onClick. */
+.homeActionMock {
+  min-width: 100%;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 10px 16px;
+  border: 2px solid #171717;
+  background: #df6b21;
+  color: #171717;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Объяснение, что файл обрабатывается локально. */
+.localFileNote {
+  margin: 10px 0 0;
+  color: #697383;
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Ссылка на тестовый файл для быстрой проверки импорта. */
+.testDataLink {
+  display: block;
+  width: fit-content;
+  margin: 12px auto 0;
+  color: #145ff5;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.testDataLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 520px) {
+  .homePage {
+    padding: 24px 12px;
+  }
+
+  .homeCard {
+    padding: 20px 15px;
+    box-shadow: 5px 5px 0 #d2d2d2;
+  }
+
+  .homeDropzone {
+    min-height: 210px;
+    padding: 15px;
+  }
+}
