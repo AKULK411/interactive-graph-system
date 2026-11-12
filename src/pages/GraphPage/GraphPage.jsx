@@ -1,45 +1,44 @@
-import "./GraphPage.css";
-import Graph3D from "../../components/Graph3D/Graph3D";
-import Graph2D from "../../components/Graph2D/Graph2D";
-import { use, useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import Graph2D from "../../components/Graph2D/Graph2D";
+import Graph3D from "../../components/Graph3D/Graph3D";
+import NodeOperations from "../../components/nodeOperations";
+import "./GraphPage.css";
 
-
-
-
-export default function GraphPage() {
 const KEY = "app:json-data";
-const [graphView, setGraphView] = useState("2D");
-const [value, setValue]=useState(0)
 
-function checkGraphData() {
-  
-  if (!sessionStorage.getItem(KEY)) {
-    return (
-      <div className="graphEmptyState">
-        <span className="graphEmptyState__icon" aria-hidden="true">⌘</span>
-        <h2>Граф пока не загружен</h2>
-        <p>Сначала добавьте JSON с узлами и связями</p>
-        <NavLink to='/' className="graphEmptyState__link">
-          Перейти к загрузке <span aria-hidden="true">→</span>
-        </NavLink>
-      </div>
-    );
-  } else if (sessionStorage.getItem(KEY)) {
-    if (graphView === "2D") {
-      return <Graph2D value={value} />;
-    } else {
-      return <Graph3D/>;
+function readGraph() {
+  const storedGraph = sessionStorage.getItem(KEY);
+  if (!storedGraph) return { graph: null, error: "" };
+
+  try {
+    const graph = JSON.parse(storedGraph);
+    if (!Array.isArray(graph?.nodes) || !Array.isArray(graph?.links)) {
+      throw new Error("В данных графа должны быть массивы nodes и links.");
     }
+    return { graph, error: "" };
+  } catch (error) {
+    return { graph: null, error: `Не удалось загрузить граф: ${error.message}` };
   }
 }
 
+export default function GraphPage() {
+  const [initialState] = useState(readGraph);
+  const [graph, setGraph] = useState(initialState.graph);
+  const [loadError, setLoadError] = useState(initialState.error);
+  const [graphView, setGraphView] = useState("2D");
+  const [particleCount, setParticleCount] = useState(0);
+  const [showArrows, setShowArrows] = useState(false);
 
+  function handleGraphChange(updatedGraph) {
+    sessionStorage.setItem(KEY, JSON.stringify(updatedGraph));
+    setGraph(updatedGraph);
+    setLoadError("");
+  }
 
   return (
     <section className="graphPage">
       <div className="graphWorkspace">
-        {/* Левая панель сводки метрик. */}
         <aside className="metricsPanel">
           <header className="sidePanelHeader">
             <h1>Метрики</h1>
@@ -48,49 +47,67 @@ function checkGraphData() {
           <div className="metricsPanel__content" aria-label="Место для метрик" />
         </aside>
 
-        {/* Центральный блок — состояние графа. */}
-        <section className="graphPanel" aria-label="Макет области графа">{checkGraphData()}</section>
+        <section className="graphPanel" aria-label="Сетевой граф">
+          {graph ? (
+            <div className="graphCanvasArea">
+              {graphView === "2D" ? (
+                <Graph2D
+                  graph={graph}
+                  value={particleCount}
+                  showArrows={showArrows}
+                />
+              ) : (
+                <Graph3D graph={graph} />
+              )}
+            </div>
+          ) : (
+            <div className="graphEmptyState">
+              <span className="graphEmptyState__icon" aria-hidden="true">⌘</span>
+              <h2>{loadError ? "Не удалось открыть граф" : "Граф пока не загружен"}</h2>
+              <p>{loadError || "Сначала добавьте JSON с узлами и связями"}</p>
+              <NavLink to="/" className="graphEmptyState__link">
+                Перейти к загрузке <span aria-hidden="true">→</span>
+              </NavLink>
+            </div>
+          )}
+        </section>
 
-        {/* Правая панель редактора графа. */}
         <aside className="editorPanel">
           <header className="sidePanelHeader">
             <div className="sidePanelHeader__text">
               <h2>Редактирование</h2>
-            <span>Параметры выбранных узлов</span>
+              <span>Параметры выбранных узлов</span>
             </div>
-            <div className="graphTypeButtons">
-              <button className='twoDButton' onClick={() => setGraphView("2D")}>
+            <div className="graphTypeButtons" role="group" aria-label="Режим графа">
+              <button
+                className={graphView === "2D" ? "isActive" : ""}
+                aria-pressed={graphView === "2D"}
+                onClick={() => setGraphView("2D")}
+              >
                 2D
               </button>
-              <button className='threeDButton' onClick={() => setGraphView("3D")}>
+              <button
+                className={graphView === "3D" ? "isActive" : ""}
+                aria-pressed={graphView === "3D"}
+                onClick={() => setGraphView("3D")}
+              >
                 3D
               </button>
             </div>
           </header>
-
-          <input type="range" min='0' max='5'ster='1' value={value} onChange={(e)=>setValue(Number(e.target.value))}/>
-          <p>{value}</p> 
-
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          {graph && (
+            <NodeOperations
+              graph={graph}
+              onGraphChange={handleGraphChange}
+              view={graphView}
+              particleCount={particleCount}
+              onParticleCountChange={setParticleCount}
+              showArrows={showArrows}
+              onShowArrowsChange={setShowArrows}
+            />
+          )}
           <div className="editorPanel__content" aria-label="Место для редактирования" />
-          
         </aside>
-
       </div>
     </section>
   );

@@ -22,15 +22,10 @@ export default function MainPage() {
   async function handleSubmit(event) {
     event.preventDefault();
     const file = selectedFile;
-    if (!file) {
-      setError("Сначала выберите или перетащите JSON-файл.");
-      return;
-    }
-
-    if (file.size > 100 * 1024 * 1024) {
-      setError("Размер файла не должен превышать 100 МБ.");
-      return;
-    }
+    if (!file) {setError("Сначала выберите или перетащите JSON-файл.");
+      return;}
+    if (file.size > 100 * 1024 * 1024) {setError("Размер файла не должен превышать 100 МБ.");
+      return;}
 
     let parsed;
     try {
@@ -44,7 +39,7 @@ export default function MainPage() {
       setError("В JSON должны быть массивы nodes и links.");
       return;
     }
-
+    
     try {
       sessionStorage.setItem(KEY, JSON.stringify(parsed));
     } catch {

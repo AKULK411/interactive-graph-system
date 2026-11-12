@@ -1,44 +1,41 @@
-    const KEY = "app:json-data";
-    const data = sessionStorage.getItem(KEY)
-        ? JSON.parse(sessionStorage.getItem(KEY))
-        : { nodes: [], links: [] };
+function endpointId(endpoint) {
+  return endpoint !== null && typeof endpoint === "object" ? endpoint.id : endpoint;
+}
 
-    const targetCount = data.links.reduce((result, targets)=>{
-    const target = targets.target;
-    result[target]=(result[target] || 0)+1;
-    return result
-    },{})
+export function createGraphData(graph) {
+  const sourceCount = new Map();
+  const targetCount = new Map();
 
-    const sourceCount = data.links.reduce((result, source)=>{
-    const sourses = source.source;
-    result[sourses]=(result[sourses] || 0)+1;
-    return result
-    },{})
+  for (const link of graph.links) {
+    const source = endpointId(link.source);
+    const target = endpointId(link.target);
+    sourceCount.set(source, (sourceCount.get(source) ?? 0) + 1);
+    targetCount.set(target, (targetCount.get(target) ?? 0) + 1);
+  }
 
-    export function changeColor(node){
-    const targetCheck = targetCount[node.id] ?? 0;
-    const sourceCheck = sourceCount[node.id] ?? 0;
-    if((targetCheck!=0 && sourceCheck!=0)){
-        return('red')
-    } 
-    else if(targetCheck>=1 || sourceCheck>=1){
-        return('#ffac4d')
-    } 
-    else if((targetCheck===0 && sourceCheck===0)){
-        return('grey')
-    } }
+  return {
+    nodes: graph.nodes.map((node) => {
+      const outgoing = sourceCount.get(node.id) ?? 0;
+      const incoming = targetCount.get(node.id) ?? 0;
+      return { ...node, val: outgoing + incoming, outgoing, incoming };
+    }),
+    links: graph.links.map((link) => ({ ...link })),
+  };
+}
 
-    export const dataSet = {
-    nodes:data.nodes.map((node)=>({id:node.id, name:node.name, val:(targetCount[node.id]??0)+(sourceCount[node.id]??0)})),
-    links:data.links.map((link)=>({source:link.source,target:link.target})),
-    }
+export function changeColor(node) {
+  if (node.incoming > 0 && node.outgoing > 0) return "red";
+  if (node.incoming > 0 || node.outgoing > 0) return "#ffac4d";
+  return "grey";
+}
 
-    export function configureChargeForce(graph) {
-    const chargeForce = graph?.d3Force("charge");
-    if (!chargeForce) return;
+export function configureChargeForce(graph) {
+  const chargeForce = graph?.d3Force("charge");
+  if (!chargeForce) return;
 
-    chargeForce.strength((node) => (node.val === 0 ? -5 : -30));
-    graph.d3ReheatSimulation();
-    }
+  chargeForce.strength((node) => (node.val === 0 ? -5 : -30));
+  graph.d3ReheatSimulation();
+}
 
-    export const nodelabel = (node) => `${node.name}: ${sourceCount[node.id]??0} исходящих связей ${targetCount[node.id]??0} входящих связей`
+export const nodelabel = (node) =>
+  `${node.name}: ${node.outgoing} исходящих связей ${node.incoming} входящих связей`;

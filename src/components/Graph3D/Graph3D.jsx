@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import ForceGraph3D from "react-force-graph-3d"
-import {changeColor, configureChargeForce, dataSet, nodelabel} from '../GraphLogic'
+import { changeColor, configureChargeForce, createGraphData, nodelabel } from "../GraphLogic"
 
-export default function Graph3D(){
+export default function Graph3D({ graph }) {
     const graphRef = useRef(null);
+    const dataSet = useMemo(() => createGraphData(graph), [graph]);
 
     useEffect(() => {
         configureChargeForce(graphRef.current);
