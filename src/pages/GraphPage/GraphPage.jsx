@@ -1,7 +1,7 @@
 import "./GraphPage.css";
 import Graph3D from "../../components/Graph3D/Graph3D";
 import Graph2D from "../../components/Graph2D/Graph2D";
-import { useState } from "react";
+import { use, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 
@@ -10,6 +10,7 @@ import { NavLink } from "react-router-dom";
 export default function GraphPage() {
 const KEY = "app:json-data";
 const [graphView, setGraphView] = useState("2D");
+const [value, setValue]=useState(0)
 
 function checkGraphData() {
   
@@ -26,12 +27,13 @@ function checkGraphData() {
     );
   } else if (sessionStorage.getItem(KEY)) {
     if (graphView === "2D") {
-      return <Graph2D />;
+      return <Graph2D value={value} />;
     } else {
-      return <Graph3D />;
+      return <Graph3D/>;
     }
   }
 }
+
 
 
   return (
@@ -64,10 +66,31 @@ function checkGraphData() {
                 3D
               </button>
             </div>
-            
           </header>
+
+          <input type="range" min='0' max='5'ster='1' value={value} onChange={(e)=>setValue(Number(e.target.value))}/>
+          <p>{value}</p> 
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           <div className="editorPanel__content" aria-label="Место для редактирования" />
+          
         </aside>
+
       </div>
     </section>
   );
