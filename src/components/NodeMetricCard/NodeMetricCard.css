@@ -1,0 +1,55 @@
+.nodeMetricCard {
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 1px solid #d2d4d6;
+  background: #fff;
+}
+
+.nodeMetricCard__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 7px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e2e4e7;
+}
+
+.nodeMetricCard__header strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #252a31;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nodeMetricCard__header span {
+  max-width: 42%;
+  overflow: hidden;
+  color: #6c737c;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nodeMetricCard__identity {
+  display: grid;
+  gap: 3px;
+  padding: 6px 0;
+  color: #69717b;
+  font-size: 9px;
+}
+
+.nodeMetricCard__identity span,
+.nodeMetricCard__identity time {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nodeMetricCard__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin: 0;
+}

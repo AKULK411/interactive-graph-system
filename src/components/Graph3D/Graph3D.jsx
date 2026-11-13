@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react"
 import ForceGraph3D from "react-force-graph-3d"
 import { changeColor, configureChargeForce, createGraphData, nodelabel } from "../GraphLogic"
 
-export default function Graph3D({ graph }) {
+export default function Graph3D({ graph, onNodeSelect }) {
     const graphRef = useRef(null);
     const dataSet = useMemo(() => createGraphData(graph), [graph]);
 
@@ -20,6 +20,7 @@ export default function Graph3D({ graph }) {
     nodeColor={changeColor}
     nodeLabel={nodelabel}
     graphData={dataSet}
+    onNodeClick={(node) => onNodeSelect?.(node.id)}
     width={1112} height={886}/>
     </>)
 }

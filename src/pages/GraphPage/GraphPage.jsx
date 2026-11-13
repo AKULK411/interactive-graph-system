@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useMemo,  useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import Graph2D from "../../components/Graph2D/Graph2D";
 import Graph3D from "../../components/Graph3D/Graph3D";
 import NodeOperations from "../../components/nodeOperations";
+import NodeMetricCard from "../../components/NodeMetricCard/NodeMetricCard";
 import "./GraphPage.css";
 
 const KEY = "app:json-data";
@@ -29,6 +30,8 @@ export default function GraphPage() {
   const [graphView, setGraphView] = useState("2D");
   const [particleCount, setParticleCount] = useState(0);
   const [showArrows, setShowArrows] = useState(false);
+  const [metricsQuery, setMetricsQuery] = useState("");
+  const [selectedNodeId, setSelectedNodeId] = useState(null);
 
   function handleGraphChange(updatedGraph) {
     sessionStorage.setItem(KEY, JSON.stringify(updatedGraph));
@@ -36,28 +39,79 @@ export default function GraphPage() {
     setLoadError("");
   }
 
+    const filteredNodes = useMemo(() => {// Поиск узлов по ID
+      const query = metricsQuery.trim().toLocaleLowerCase();
+      const nodes = graph?.nodes || [];
+      if (!query) return nodes;
+      return nodes.filter((node) =>
+        [node.id, node.name, node.role, node.type].some((value) =>
+          String(value || "").toLocaleLowerCase().includes(query)
+        )
+      );
+    }, [graph, metricsQuery]);
+  
+    const selectedNode = graph?.nodes.find((node) => String(node.id) === String(selectedNodeId)) || null;
+    const hasSearchQuery = metricsQuery.trim().length > 0;
+  
+    const selectNode = useCallback((nodeId) => {
+      setSelectedNodeId(nodeId);
+      setMetricsQuery("");
+    }, []);
+
+
   return (
     <section className="graphPage">
       <div className="graphWorkspace">
-        <aside className="metricsPanel">
+        
+                <aside className="metricsPanel">
           <header className="sidePanelHeader">
             <h1>Метрики</h1>
-            <span>Сводка по узлам</span>
+            <span>{selectedNode ? "Выбранный узел" : "Выберите узел"}</span>
           </header>
-          <div className="metricsPanel__content" aria-label="Место для метрик" />
+
+          {graph ? (
+            <>
+              <label className="metricsSearch">
+                <span className="metricsSearch__label">Поиск по ID, имени или роли</span>
+                <input type="text" value={metricsQuery} onChange={(event) => setMetricsQuery(event.target.value)} placeholder="Найти узел…"/>
+              </label>
+
+              <div className="metricsPanel__content">
+                {hasSearchQuery ? (
+                  filteredNodes.length > 0 ? (
+                    <div className="metricsSearchResults" aria-label="Результаты поиска узлов">
+                      {filteredNodes.map((node) => (
+                        <button
+                          className="metricsSearchResult"
+                          key={String(node.id)}
+                          type="button"
+                          onClick={() => selectNode(node.id)}
+                        >
+                          <strong>{node.name || "Без имени"}</strong>
+                          <span>ID: {node.id ?? "—"} · {node.role || node.type || node.metadata?.role || "без роли"}</span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (<p className="metricsPanel__empty">Нет таких узлов.</p>)
+                ) : selectedNode ? (<NodeMetricCard node={selectedNode} />
+                ) : (<p className="metricsPanel__empty metricsPanel__empty--hint">Метрики появятся здесь после нажатия на узел графа.</p>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="metricsPanel__content metricsPanel__content--empty">
+              {loadError || "Метрики узлов появятся после загрузки JSON."}
+            </div>
+          )}
         </aside>
 
         <section className="graphPanel" aria-label="Сетевой граф">
           {graph ? (
             <div className="graphCanvasArea">
               {graphView === "2D" ? (
-                <Graph2D
-                  graph={graph}
-                  value={particleCount}
-                  showArrows={showArrows}
-                />
+                <Graph2D graph={graph} value={particleCount} showArrows={showArrows} onNodeSelect={selectNode}/>
               ) : (
-                <Graph3D graph={graph} />
+                <Graph3D graph={graph} onNodeSelect={selectNode}/>
               )}
             </div>
           ) : (
@@ -86,13 +140,7 @@ export default function GraphPage() {
               >
                 2D
               </button>
-              <button
-                className={graphView === "3D" ? "isActive" : ""}
-                aria-pressed={graphView === "3D"}
-                onClick={() => setGraphView("3D")}
-              >
-                3D
-              </button>
+              <button className={graphView === "3D" ? "isActive" : ""} aria-pressed={graphView === "3D"} onClick={() => setGraphView("3D")}>3D</button>
             </div>
           </header>
           {graph && (

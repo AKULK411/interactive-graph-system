@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import ForceGraph2D from "react-force-graph-2d"
 import { changeColor, configureChargeForce, createGraphData, nodelabel } from "../GraphLogic"
 
-export default function Graph2D({ graph, value, showArrows = false }) {
+export default function Graph2D({ graph, value, showArrows = false, onNodeSelect }) {
     const graphRef = useRef(null);
     const dataSet = createGraphData(graph);
 
@@ -24,7 +24,7 @@ export default function Graph2D({ graph, value, showArrows = false }) {
     nodeColor={changeColor}
     nodeLabel={nodelabel}
     graphData={dataSet}
-    onNodeClick={(node) => graph.onNodeSelect?.(node.id)}
+    onNodeClick={(node) => onNodeSelect?.(node.id)}
     width={1112} height={886}
 
     />
