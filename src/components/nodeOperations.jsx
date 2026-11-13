@@ -16,8 +16,14 @@ export default function NodeOperations({
   const [nodeName, setNodeName] = useState("");
   const [connectToSelected, setConnectToSelected] = useState(true);
   const [error, setError] = useState("");
+  const [nodeSearch, setNodeSearch] = useState("");
   const selectedNode = graph.nodes.find(node => String(node.id) === selectedId);
   const info = selectedNode ? getNodeInfo(graph, selectedNode.id) : null;
+  const searchQuery = nodeSearch.trim().toLocaleLowerCase();
+  const filteredNodes = graph.nodes.filter(node => (
+    [node.name, node.id].some(value => String(value ?? "").toLocaleLowerCase().includes(searchQuery))
+  ));
+  const selectedNodeIsFilteredOut = selectedNode && !filteredNodes.includes(selectedNode);
 
   function handleAddNode(event) {
     event.preventDefault();
@@ -86,20 +92,43 @@ export default function NodeOperations({
       <section className="editorSection" aria-label="Управление узлами">
         <h3 className="editorSection__title">Узлы</h3>
         {graph.nodes.length > 0 ? (
-          <label className="editorField">
-            <span className="editorField__label">Выбранный узел</span>
-            <select
-              className="editorField__control"
-              value={selectedNode ? selectedId : ""}
-              onChange={(event) => setSelectedId(event.target.value)}
-            >
-              {graph.nodes.map((node) => (
-                <option key={String(node.id)} value={String(node.id)}>
-                  {node.name || node.id}
-                </option>
-              ))}
-            </select>
-          </label>
+          <div className="nodeOperations__nodePicker">
+            <label className="editorField">
+              <span className="editorField__label">Поиск узла по имени или ID</span>
+              <input
+                className="editorField__control"
+                type="search"
+                value={nodeSearch}
+                onChange={(event) => setNodeSearch(event.target.value)}
+                placeholder="Введите имя или ID"
+                aria-label="Поиск узла по имени или ID"
+              />
+            </label>
+            <label className="editorField">
+              <span className="editorField__label">Выбранный узел</span>
+              <select
+                className="editorField__control"
+                value={selectedNode ? selectedId : ""}
+                onChange={(event) => setSelectedId(event.target.value)}
+              >
+                {selectedNodeIsFilteredOut && (
+                  <option value={selectedId}>
+                    {selectedNode.name || selectedNode.id} · выбран
+                  </option>
+                )}
+                {filteredNodes.map((node) => (
+                  <option key={String(node.id)} value={String(node.id)}>
+                    {node.name || node.id} · ID: {node.id}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {searchQuery && filteredNodes.length === 0 && (
+              <p className="nodeOperations__empty" role="status">
+                По запросу «{nodeSearch.trim()}» узлы не найдены.
+              </p>
+            )}
+          </div>
         ) : (
           <p className="nodeOperations__empty">В графе пока нет узлов.</p>
         )}

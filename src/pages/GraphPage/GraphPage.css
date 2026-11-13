@@ -332,6 +332,15 @@
   padding: 10px;
 }
 
+.nodeOperations__nodePicker {
+  display: grid;
+  gap: 8px;
+}
+
+.nodeOperations__nodePicker .editorField {
+  margin-top: 0;
+}
+
 .nodeOperations__form {
   display: grid;
   gap: 8px;

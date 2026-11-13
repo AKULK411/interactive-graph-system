@@ -34,6 +34,15 @@ export function addNode(graph, { name, targetId = null, id, nodeData = {}, linkD
     throw new Error("Введите имя нового узла.");
   }
 
+  const normalizedName = name.trim();
+  const sameNameExists = graph.nodes.some(
+    node => typeof node?.name === "string" &&
+      node.name.trim().toLowerCase() === normalizedName.toLowerCase()
+  );
+  if (sameNameExists) {
+    throw new Error(`Узел с именем «${normalizedName}» уже существует.`);
+  }
+
   const newId = id === undefined ? createId() : id;
   if (typeof newId !== "string" || !newId.trim()) {
     throw new Error("ID нового узла должен быть непустой строкой.");

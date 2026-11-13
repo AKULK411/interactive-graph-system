@@ -24,7 +24,7 @@ export default function MainPage() {
     const file = selectedFile;
     if (!file) {setError("Сначала выберите или перетащите JSON-файл.");
       return;}
-    if (file.size > 100 * 1024 * 1024) {setError("Размер файла не должен превышать 100 МБ.");
+    if (file.size > 10 * 1024 * 1024) {setError("Размер файла не должен превышать 10 МБ.");
       return;}
 
     let parsed;
@@ -124,7 +124,7 @@ export default function MainPage() {
         </div>
 
         <div className={`homeFileInfo${error ? " hasError" : ""}`} role="status">
-          {error || (fileName ? `Выбран файл: ${fileName}` : "JSON · максимум 100 МБ")}
+          {error || (fileName ? `Выбран файл: ${fileName}` : "JSON · максимум 10 МБ")}
         </div>
 
         <button className="homeActionMock" type="submit">
