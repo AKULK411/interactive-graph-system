@@ -39,31 +39,31 @@ export default function GraphPage() {
     setLoadError("");
   }
 
-    const filteredNodes = useMemo(() => {// Поиск узлов по ID
-      const query = metricsQuery.trim().toLocaleLowerCase();
-      const nodes = graph?.nodes || [];
-      if (!query) return nodes;
-      return nodes.filter((node) =>
-        [node.id, node.name, node.role, node.type].some((value) =>
-          String(value || "").toLocaleLowerCase().includes(query)
-        )
-      );
-    }, [graph, metricsQuery]);
-  
-    const selectedNode = graph?.nodes.find((node) => String(node.id) === String(selectedNodeId)) || null;
-    const hasSearchQuery = metricsQuery.trim().length > 0;
-  
-    const selectNode = useCallback((nodeId) => {
-      setSelectedNodeId(nodeId);
-      setMetricsQuery("");
-    }, []);
+  const filteredNodes = useMemo(() => {
+    const query = metricsQuery.trim().toLocaleLowerCase();
+    const nodes = graph?.nodes || [];
+    if (!query) return [];
+    return nodes.filter((node) =>
+      [node.id, node.name, node.role, node.type].some((value) =>
+        String(value || "").toLocaleLowerCase().includes(query)
+      )
+    );
+  }, [graph, metricsQuery]);
+
+  const selectedNode = graph?.nodes.find((node) => String(node.id) === String(selectedNodeId)) || null;
+  const hasSearchQuery = metricsQuery.trim().length > 0;
+
+  const selectNode = useCallback((nodeId) => {
+    setSelectedNodeId(nodeId);
+    setMetricsQuery("");
+  }, []);
 
 
   return (
     <section className="graphPage">
       <div className="graphWorkspace">
         
-                <aside className="metricsPanel">
+        <aside className="metricsPanel">
           <header className="sidePanelHeader">
             <h1>Метрики</h1>
             <span>{selectedNode ? "Выбранный узел" : "Выберите узел"}</span>
@@ -71,16 +71,23 @@ export default function GraphPage() {
 
           {graph ? (
             <>
-              <label className="metricsSearch">
-                <span className="metricsSearch__label">Поиск по ID, имени или роли</span>
-                <input type="text" value={metricsQuery} onChange={(event) => setMetricsQuery(event.target.value)} placeholder="Найти узел…"/>
-              </label>
+              <div className="metricsSearchWrap">
+                <label className="metricsSearch">
+                  <span className="metricsSearch__label">Поиск по ID, имени или роли</span>
+                  <input
+                    type="text"
+                    value={metricsQuery}
+                    onChange={(event) => setMetricsQuery(event.target.value)}
+                    placeholder="Найти узел…"
+                    aria-expanded={hasSearchQuery}
+                    aria-controls="metrics-node-search-results"
+                  />
+                </label>
 
-              <div className="metricsPanel__content">
-                {hasSearchQuery ? (
-                  filteredNodes.length > 0 ? (
-                    <div className="metricsSearchResults" aria-label="Результаты поиска узлов">
-                      {filteredNodes.map((node) => (
+                {hasSearchQuery && (
+                  <div className="metricsSearchResults" id="metrics-node-search-results" aria-label="Результаты поиска узлов">
+                    {filteredNodes.length > 0 ? (
+                      filteredNodes.map((node) => (
                         <button
                           className="metricsSearchResult"
                           key={String(node.id)}
@@ -90,11 +97,23 @@ export default function GraphPage() {
                           <strong>{node.name || "Без имени"}</strong>
                           <span>ID: {node.id ?? "—"} · {node.role || node.type || node.metadata?.role || "без роли"}</span>
                         </button>
-                      ))}
-                    </div>
-                  ) : (<p className="metricsPanel__empty">Нет таких узлов.</p>)
-                ) : selectedNode ? (<NodeMetricCard node={selectedNode} />
-                ) : (<p className="metricsPanel__empty metricsPanel__empty--hint">Метрики появятся здесь после нажатия на узел графа.</p>
+                      ))
+                    ) : (
+                      <p className="metricsPanel__empty">Нет таких узлов.</p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className="metricsPanel__content">
+                {selectedNode ? (
+                  <NodeMetricCard node={selectedNode} />
+                ) : (
+                  <p className="metricsPanel__empty metricsPanel__empty--hint">
+                    {hasSearchQuery
+                      ? "Выберите узел из списка выше"
+                      : "Метрики появятся здесь после нажатия на узел графа."}
+                  </p>
                 )}
               </div>
             </>
@@ -105,7 +124,7 @@ export default function GraphPage() {
           )}
         </aside>
 
-        <section className="graphPanel" aria-label="Сетевой граф">
+        <section className="graphPanel">
           {graph ? (
             <div className="graphCanvasArea">
               {graphView === "2D" ? (
@@ -133,14 +152,8 @@ export default function GraphPage() {
               <span>Параметры выбранных узлов</span>
             </div>
             <div className="graphTypeButtons" role="group" aria-label="Режим графа">
-              <button
-                className={graphView === "2D" ? "isActive" : ""}
-                aria-pressed={graphView === "2D"}
-                onClick={() => setGraphView("2D")}
-              >
-                2D
-              </button>
-              <button className={graphView === "3D" ? "isActive" : ""} aria-pressed={graphView === "3D"} onClick={() => setGraphView("3D")}>3D</button>
+              <button className={graphView === "2D" ? "isActive" : ""} onClick={() => setGraphView("2D")}>2D</button>
+              <button className={graphView === "3D" ? "isActive" : ""} onClick={() => setGraphView("3D")}>3D</button>
             </div>
           </header>
           {graph && (
@@ -154,7 +167,7 @@ export default function GraphPage() {
               onShowArrowsChange={setShowArrows}
             />
           )}
-          <div className="editorPanel__content" aria-label="Место для редактирования" />
+          <div className="editorPanel__content"/>
         </aside>
       </div>
     </section>

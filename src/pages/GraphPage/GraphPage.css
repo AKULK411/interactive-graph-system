@@ -40,6 +40,84 @@
   color: #25282d;
 }
 
+.metricsSearchWrap {
+  position: relative;
+  z-index: 1;
+}
+
+.metricsSearch {
+  display: grid;
+  gap: 8px;
+}
+
+.metricsSearch__label {
+  color: #626873;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.metricsSearch input {
+  width: 100%;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid #b8bcc4;
+  background: #fff;
+  color: #25282d;
+  font: inherit;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.metricsSearchResults {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  display: grid;
+  gap: 6px;
+  max-height: 240px;
+  overflow: auto;
+  padding: 8px;
+  border: 1px solid #c7ccd4;
+  background: #fff;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.12);
+  z-index: 20;
+}
+
+.metricsSearchResult {
+  display: grid;
+  width: 100%;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid #dde1e7;
+  background: #f9fafb;
+  color: #1e232a;
+  text-align: left;
+  cursor: pointer;
+}
+
+.metricsSearchResult strong {
+  font-size: 12px;
+}
+
+.metricsSearchResult span {
+  color: #5f6873;
+  font-size: 10px;
+}
+
+.metricsSearchResult:hover {
+  background: #eef3ff;
+}
+
+.metricsPanel__empty {
+  margin: 0;
+  color: #5f6873;
+  font-size: 10px;
+}
+
+.metricsPanel__empty--hint {
+  padding-top: 12px;
+}
 
 .editorPanel {
   display: flex;
@@ -94,7 +172,7 @@
 .sidePanelHeader h1,
 .sidePanelHeader h2 {
   margin: 0;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 800;
 }
 
@@ -320,7 +398,7 @@
 .editorSection__title {
   margin: 0 0 10px;
   color: #343a43;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 800;
 }
 
@@ -357,7 +435,7 @@
   align-items: center;
   gap: 6px;
   color: #626873;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .nodeOperations__button {
@@ -422,7 +500,7 @@
 
 .editorField__label {
   color: #626873;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .editorField__control {
@@ -509,7 +587,7 @@
   width: 56px;
   height: 30px;
   background: #cbd5e1;
-  border-radius: 6px;          /* небольшое скругление = квадратный вид */
+  border-radius: 6px;          
   transition: background 0.25s;
 }
 

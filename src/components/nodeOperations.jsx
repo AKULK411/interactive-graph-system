@@ -74,13 +74,7 @@ export default function NodeOperations({
             />
           </label>
           <label className="switch">
-            <input
-              type="checkbox"
-              role="switch"
-              aria-label="Стрелки на связях"
-              checked={showArrows}
-              onChange={(event) => onShowArrowsChange(event.target.checked)}
-            />
+            <input type="checkbox" role="switch" checked={showArrows} onChange={(event) => onShowArrowsChange(event.target.checked)}/>
             <span className="track" aria-hidden="true">
               <span className="thumb"></span>
             </span>
