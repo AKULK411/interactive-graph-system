@@ -1,15 +1,7 @@
 import { useState } from "react";
 import { addNode, deleteNode, getNodeInfo } from "./nodeOperationsUtils";
 
-export default function NodeOperations({
-  graph,
-  onGraphChange,
-  view,
-  particleCount,
-  onParticleCountChange,
-  showArrows,
-  onShowArrowsChange,
-}) {
+export default function NodeOperations({ graph, onGraphChange, view, particleCount, onParticleCountChange, showArrows, onShowArrowsChange,}) {
   const [selectedId, setSelectedId] = useState(() => (
     graph.nodes[0] ? String(graph.nodes[0].id) : ""
   ));
@@ -63,15 +55,7 @@ export default function NodeOperations({
           <h3 className="editorSection__title">Настройки 2D</h3>
           <label className="editorField">
             <span className="editorField__label">Шарики на связях: {particleCount}</span>
-            <input
-              className="nodeOperations__range"
-              type="range"
-              min="0"
-              max="5"
-              step="1"
-              value={particleCount}
-              onChange={(event) => onParticleCountChange(Number(event.target.value))}
-            />
+            <input className="nodeOperations__range" type="range" min="0" max="5" step="1" value={particleCount} onChange={(event) => onParticleCountChange(Number(event.target.value))}/>
           </label>
           <label className="switch">
             <input type="checkbox" role="switch" checked={showArrows} onChange={(event) => onShowArrowsChange(event.target.checked)}/>

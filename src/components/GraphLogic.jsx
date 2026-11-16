@@ -26,7 +26,7 @@ export function createGraphData(graph) {
 export function changeColor(node) {
   if (node.incoming > 0 && node.outgoing > 0) return "red";
   if (node.incoming > 0 || node.outgoing > 0) return "#ffac4d";
-  return "grey";
+  return "black";
 }
 
 export function configureChargeForce(graph) {

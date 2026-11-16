@@ -1,4 +1,4 @@
-import { useState } from 'react'
+
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout/Layout'
@@ -7,10 +7,7 @@ import NotFound from'./pages/NotFound/NotFound'
 import GraphPage from './pages/GraphPage/GraphPage'
 import AboutPage from './pages/AboutPage/AboutPage'
 
-
-
-function App() {
-
+export default function App() {
 
   return (
     <>
@@ -26,4 +23,4 @@ function App() {
   )
 }
 
-export default App
+
