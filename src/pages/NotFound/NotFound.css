@@ -1,49 +1,220 @@
-/* 404 — компактное пустое состояние с переходом на главную. */
+/* Страница 404 использует те же контуры, акценты и геометрию карточек. */
 .notFoundPage {
-  width: min(700px, calc(100% - 32px));
-  min-height: 55vh;
+  width: 100%;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 42px 18px;
+}
+
+.notFoundCard {
+  width: min(760px, 100%);
+  overflow: hidden;
+  border: 2px solid #171717;
+  background: #ffffff;
+  box-shadow: 8px 8px 0 #d2d2d2;
+}
+
+.notFoundTopline,
+.notFoundBottom {
+  min-height: 42px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  padding: 40px 0;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 20px;
+  background: #f0f1f3;
+  color: #687282;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.notFoundTopline {
+  border-bottom: 1px solid #d8dbe0;
+}
+
+.notFoundEyebrow {
+  color: #20283a;
+}
+
+.notFoundStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #c34d28;
+}
+
+.notFoundStatus i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #df6b21;
+}
+
+.notFoundVisual {
+  position: relative;
+  min-height: 245px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-bottom: 2px solid #171717;
+  background: #fff8f2;
+}
+
+.notFoundGrid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background-image: linear-gradient(#e8d9cf 1px, transparent 1px), linear-gradient(90deg, #e8d9cf 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+}
+
+.notFoundNetwork {
+  position: absolute;
+  width: min(560px, 90%);
+  height: auto;
+  opacity: 0.75;
+}
+
+.notFoundNetwork path {
+  stroke: #8c9aab;
+  stroke-width: 2;
+  stroke-dasharray: 5 6;
+}
+
+.notFoundNetwork circle {
+  fill: #ffffff;
+  stroke: #145ff5;
+  stroke-width: 3;
+}
+
+.notFoundNetwork .notFoundCenter {
+  fill: #df6b21;
+  stroke: #171717;
+  stroke-width: 2;
+}
+
+.notFoundNetwork .notFoundBroken {
+  stroke: #df6b21;
+  stroke-width: 3;
+}
+
+.notFoundNetwork .notFoundCross {
+  stroke: #171717;
+  stroke-width: 3;
+  stroke-linecap: square;
+}
+
+.notFoundBigCode {
+  position: relative;
+  z-index: 1;
+  color: #df6b21;
+  font-size: clamp(86px, 17vw, 148px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.09em;
+  text-shadow: 4px 4px 0 #171717;
+}
+
+.notFoundVisualLabel {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  color: #778293;
+  font: 800 9px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: 0.12em;
+}
+
+.notFoundContent {
+  padding: 28px clamp(20px, 5vw, 42px) 32px;
   text-align: center;
 }
 
-.notFoundCode {
-  color: #df6b21;
-  font-size: clamp(76px, 14vw, 140px);
+.notFoundIndex {
+  color: #145ff5;
+  font-size: 10px;
   font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.08em;
+  letter-spacing: 0.15em;
 }
 
-.notFoundPage h1 {
-  margin: 18px 0 6px;
-  font-size: clamp(24px, 4vw, 36px);
+.notFoundContent h1 {
+  margin: 9px 0 7px;
+  color: #20283a;
+  font-size: clamp(26px, 4vw, 36px);
+  line-height: 1.12;
   letter-spacing: -0.05em;
 }
 
-.notFoundPage p {
-  margin: 0 0 22px;
+.notFoundContent p {
+  max-width: 440px;
+  margin: 0 auto 22px;
   color: #707a88;
   font-size: 13px;
+  line-height: 1.65;
 }
 
 .notFoundLink {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  padding: 11px 17px;
+  min-height: 42px;
+  padding: 10px 17px;
   border: 2px solid #171717;
   background: #df6b21;
   color: #171717;
   font-size: 12px;
   font-weight: 800;
   text-decoration: none;
+  transition: transform 150ms ease, filter 150ms ease;
 }
 
 .notFoundLink:hover {
   filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.notFoundBottom {
+  min-height: 34px;
+  border-top: 1px solid #d8dbe0;
+  background: #f7f8f9;
+  font-size: 8px;
+}
+
+.notFoundBottom b {
+  color: #c34d28;
+}
+
+@media (max-width: 520px) {
+  .notFoundPage {
+    padding: 24px 12px;
+  }
+
+  .notFoundCard {
+    box-shadow: 5px 5px 0 #d2d2d2;
+  }
+
+  .notFoundVisual {
+    min-height: 190px;
+  }
+
+  .notFoundTopline,
+  .notFoundBottom {
+    padding-right: 12px;
+    padding-left: 12px;
+    font-size: 8px;
+  }
+
+  .notFoundContent {
+    padding-top: 24px;
+    padding-bottom: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notFoundLink {
+    transition: none;
+  }
 }
