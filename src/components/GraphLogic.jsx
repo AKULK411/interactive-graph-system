@@ -65,11 +65,11 @@ function getNodeLoad(node) {
 export function changeColor(node) {
   if (((node.incoming ?? 0) + (node.outgoing ?? 0) === 0)) return "black";
   const { cpuPercent, memoryPercent } = getNodeLoad(node);
-  if (cpuPercent > 80 && memoryPercent > 80) return "red";
-  if (cpuPercent > 60 && memoryPercent > 60) return "#ffac4d";
-  if ((cpuPercent > 40 && memoryPercent>40)|| Math.max(cpuPercent ?? 0, memoryPercent ?? 0) > 40) return "#ffd000";
-  if ((cpuPercent >10 && memoryPercent>10) || Math.max(cpuPercent ?? 0, memoryPercent ?? 0) > 10) return "#4caf50";
-  if ((cpuPercent <10 && memoryPercent<10) || Math.max(cpuPercent ?? 0, memoryPercent ?? 0) === 0) return "#00a2ff";
+  if (cpuPercent >= 80 && memoryPercent >= 80) return "red";
+  if (cpuPercent >= 60 && memoryPercent >= 60) return "#ffac4d";
+  if ((cpuPercent >= 40 && memoryPercent>=40)|| Math.max(cpuPercent ?? 0, memoryPercent ?? 0) >= 40) return "#ffd000";
+  if ((cpuPercent >10 && memoryPercent>=10) || Math.max(cpuPercent ?? 0, memoryPercent ?? 0) >= 10) return "#4caf50";
+  if ((cpuPercent <10 && memoryPercent<10) || Math.max(cpuPercent ?? 0, memoryPercent ?? 0) <10) return "#00a2ff";
   return "black";
   
 }  
