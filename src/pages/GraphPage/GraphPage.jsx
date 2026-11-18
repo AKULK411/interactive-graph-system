@@ -22,6 +22,33 @@ function readGraph() {
     return { graph: null, error: `Не удалось загрузить граф: ${error.message}` };
   }
 }
+const legend=[
+  {color: '#ff0000', label:'Очень высокая нагрузка'},
+  {color: '#ffac4d', label:'Высокая нагрузка'},
+  {color: '#ffd725', label:'Средняя нагрузка'},
+  {color: '#4caf50', label:'Низкая нагрузка'},
+  {color: '#00a2ff', label:'Минимальная нагрузка'},
+  {color: '#333', label:'Мёртвый узлел'},
+]
+
+function GraphLegend(){
+  return(<>
+  <aside className="graphLegend">
+    <strong className="">Нагрузка узла</strong>
+    <ul>
+      {legend.map(({color, label})=>(
+        <li key={color}>
+          <span className="graphLegend-swatch" style={{backgroundColor:color}}/>
+          <span >{label}</span>
+        </li>
+      ))}
+    </ul>
+  </aside>
+  </>)
+}
+
+
+
 
 export default function GraphPage() {
   const [initialState] = useState(readGraph);
@@ -128,9 +155,9 @@ export default function GraphPage() {
           {graph ? (
             <div className="graphCanvasArea">
               {graphView === "2D" ? (
-                <Graph2D graph={graph} value={particleCount} showArrows={showArrows} onNodeSelect={selectNode}/>
+                <><GraphLegend/><Graph2D graph={graph} value={particleCount} showArrows={showArrows} onNodeSelect={selectNode}/></>
               ) : (
-                <Graph3D graph={graph} onNodeSelect={selectNode}/>
+                <><GraphLegend/><Graph3D graph={graph} onNodeSelect={selectNode}/></>
               )}
             </div>
           ) : (

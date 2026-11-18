@@ -609,5 +609,50 @@
   background:#df6b21 ;
 }
 .switch input:checked + .track .thumb {
-  transform: translateX(26px);   /* 56 − 24 − 3 − 3 = 26 */
+  transform: translateX(26px);  
+}
+
+.graphLegend{
+  position: absolute;
+  z-index: 5;
+  top: 12px;
+  left: 12px;
+  width: max-content;
+  padding: 9px 10px;
+  border: 1px solid #c7cbd0;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 8px rgba(20, 30, 40, 0.12);
+  color: #25282d;
+  pointer-events: none;
+}
+
+.graphLegend-swatch{
+width: 14px;
+height: 14px;
+flex: 0 0 14px;
+border: 1px solid rgba(0, 0, 0, 0.2);
+border-radius: 50%;
+}
+
+.graphLegend ul{
+  display: grid;
+  gap:10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.graphLegend li{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 7px;
+  color: #4a515b;
+  font-size: 14px;
+  line-height: 1;
+}
+.graphLegend strong{
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
 }
